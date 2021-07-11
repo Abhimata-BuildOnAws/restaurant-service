@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # Account
   post '/signup', to: 'account#signup'
   post '/login', to: 'account#login'
+
+  # Restaurant
   post '/restaurant/signup', to: 'seller#signup'
 
   # Payment
