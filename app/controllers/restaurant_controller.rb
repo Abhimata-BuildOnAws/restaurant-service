@@ -1,6 +1,6 @@
 class RestaurantController < ApplicationController
   def signup
-    Stripe.api_key = ENV['STRIPE_TEST_KEY']
+    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
     account = Stripe::Account.create({
       type: 'express',
     })  
@@ -13,5 +13,9 @@ class RestaurantController < ApplicationController
       type: 'account_onboarding',
     })
     render json: { message: account_links.url }, status: 200
+  end
+
+  def browse
+    render json: { message: Restaurant.all }, status: 200
   end
 end
