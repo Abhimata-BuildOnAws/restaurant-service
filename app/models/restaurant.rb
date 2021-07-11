@@ -1,4 +1,5 @@
-class Restaurant < ApplicationRecord
+class Restaurant < User
+  self.table_name = 'restaurants'
   # Relationships
   has_many :menu_items
 
