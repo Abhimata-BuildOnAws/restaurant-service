@@ -10,11 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_11_015943) do
+ActiveRecord::Schema.define(version: 2021_07_11_034813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "menu_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "restaurant_id", null: false
+    t.string "name"
+    t.string "description"
+    t.float "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["restaurant_id"], name: "index_menu_items_on_restaurant_id"
+  end
+
+  create_table "restaurants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "email"
+    t.string "contact_no"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
@@ -25,4 +44,5 @@ ActiveRecord::Schema.define(version: 2021_07_11_015943) do
     t.string "email"
   end
 
+  add_foreign_key "menu_items", "restaurants"
 end

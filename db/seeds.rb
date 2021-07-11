@@ -6,3 +6,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+
+res = Restaurant.create(email: 'aikarvin99@gmail.com', name: 'Mise la Arvin', address: 'Hells Kitchen', contact_no: '12345678')
+food1 = MenuItem.create(name: 'Orange chicken', description: 'Its just orange chicken', price: 4.5, restaurant_id: res.id)
+food2 = MenuItem.create(name: 'Blue chicken', description: 'Its blue chicken', price: 5.5, restaurant_id: res.id)
