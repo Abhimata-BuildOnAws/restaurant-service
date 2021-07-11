@@ -5,7 +5,11 @@ class AuthController < ApplicationController
       PASSWORD: params[:password]
     }
     begin
-      resp = Cognito.authenticate(user_object).authentication_result
+      resp = Cognito.authenticate(user_object)
+      if resp.authentication_result.nil?
+        resp = Cognito.respond_to_new_password_challenge(params[:new_password], params[:address], params[:name], resp)
+      end
+      resp = resp.authentication_result
     rescue => e
       resp = e
     end
