@@ -5,4 +5,7 @@ Rails.application.routes.draw do
   post '/signup', to: 'account#signup'
   post '/login', to: 'account#login'
   post '/restaurant/signup', to: 'seller#signup'
+
+  # Payment
+  post "/payment/payment_intent", to: "payment#payment_intent"
 end
