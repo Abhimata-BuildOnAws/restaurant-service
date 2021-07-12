@@ -7,9 +7,9 @@ class OrderController < ApplicationController
     orders.each do |o|
       menu_item_id = o['menu_item_id']
       quantity = o['quantity']
-      OrderItem.create(order: new_order.id, quantity: quantity, menu_item_id: menu_item_id)
+      OrderItem.create(order_id: new_order.id, quantity: quantity, menu_item_id: menu_item_id)
     end
 
-    render :json => { order: order }, status: 200
+    render :json => { order: new_order }, status: 200
   end
 end

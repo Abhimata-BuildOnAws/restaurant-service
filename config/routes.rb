@@ -2,6 +2,15 @@
 
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  # Account
+  post '/signup', to: 'account#signup'
+  post '/login', to: 'account#login'
+
+  # Restaurant
+  post '/restaurant/signup', to: 'restaurant#signup'
+  post '/restaurant/login', to: 'restaurant#login'
+  get '/restaurant/browse', to: 'restaurant#browse'
+
   # Payment
   post "/payment/payment_intent", to: "payment#payment_intent"
 
@@ -13,4 +22,10 @@ Rails.application.routes.draw do
   post 'auth/new_password', to: 'auth#respond_to_new_password_challenge'
   post 'auth/current_user', to: 'auth#current_user'
   
+
+  # MenuItem
+  post 'menu_item/items_by_restaurant', to: 'menu_item#items_by_restaurant'
+
+  # Order
+  post 'order/create', to: 'order#create'
 end
