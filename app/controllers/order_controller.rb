@@ -1,5 +1,7 @@
 class OrderController < ApplicationController
   require 'json'
+
+  # Create new order
   def create
     new_order = Order.create()
     orders = JSON.parse(request.body.read)['order']
