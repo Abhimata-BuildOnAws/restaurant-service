@@ -15,7 +15,12 @@ class OrderController < ApplicationController
 
     new_order.update(total_price: total_price)
 
-    render :json => { order: new_order}, status: 200
+    pollution = 100
+    if new_order.hitch.present?
+      pollution = new_order.hitch.each_pollution
+    end
+
+    render :json => { order: new_order, pollution: pollution}, status: 200
   end
 
   private 
