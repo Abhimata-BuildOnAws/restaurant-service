@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2021_07_12_070014) do
   create_table "menu_items_orders", id: false, force: :cascade do |t|
     t.bigint "order_id", null: false
     t.bigint "menu_item_id", null: false
+    t.integer "quantity"
     t.index ["menu_item_id"], name: "index_menu_items_orders_on_menu_item_id"
     t.index ["order_id"], name: "index_menu_items_orders_on_order_id"
   end
