@@ -28,4 +28,8 @@ Rails.application.routes.draw do
 
   # Order
   post 'order/create', to: 'order#create'
+
+  # Tumpang
+  post '/tumpang', to: 'hitch#create'
+  get '/tumpang', to: 'hitch#get_all'
 end
