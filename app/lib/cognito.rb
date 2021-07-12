@@ -29,30 +29,27 @@ class Cognito
      @client.sign_up(auth_object)
     end
 
-    def self.respond_to_new_password_challenge(new_password, address, name, challenge)
-      puts '--------------cp1----------------------'
-      challenge_responses = new_password_challenge(new_password, address, name, challenge)
-      puts challenge_responses
-      puts '------------cp2----------'
-      respond_to_challenge(challenge, challenge_responses)
+    def self.respond_to_new_password_challenge(new_password, address, name, username, session)
+      challenge_responses = new_password_challenge(new_password, address, name, username)
+      respond_to_challenge(session, 'NEW_PASSWORD_REQUIRED', challenge_responses)
     end
 
     private
 
-    def self.respond_to_challenge(challenge, challenge_responses)
+    def self.respond_to_challenge(session, challenge_name, challenge_responses)
       challenge_object = {
         client_id: ENV['AWS_COGNITO_APP_CLIENT_ID'],
         user_pool_id: ENV['AWS_COGNITO_POOL_ID'],
-        challenge_name: challenge.challenge_name,
+        challenge_name: challenge_name,
         challenge_responses: challenge_responses,
-        session: challenge.session
+        session: session
       }
       @client.admin_respond_to_auth_challenge(challenge_object)
     end
 
-    def self.new_password_challenge(new_password, address, name, challenge)
+    def self.new_password_challenge(new_password, address, name, username)
       return {
-          USERNAME: challenge.challenge_parameters["USER_ID_FOR_SRP"],
+          USERNAME: username,
           NEW_PASSWORD: new_password,
           'userAttributes.address': address,
           'userAttributes.name': name

@@ -16,4 +16,5 @@ Rails.application.routes.draw do
   # Cognito
   post 'auth/sign_in', to: 'auth#sign_in'
   post 'auth/sign_out', to: 'auth#sign_out'
+  post 'auth/new_password', to: 'auth#respond_to_new_password_challenge'
 end

@@ -7,13 +7,18 @@ class AuthController < ApplicationController
     begin
       resp = Cognito.authenticate(user_object)
       if resp.authentication_result.nil?
-        resp = Cognito.respond_to_new_password_challenge(params[:new_password], params[:address], params[:name], resp)
+        render json: {
+          challenge_name: resp.challenge_name,
+          username: resp.challenge_parameters["USER_ID_FOR_SRP"],
+          session: resp.session
+        }, status: 200
+        return
+      else
+        render json: resp.authentication_result
       end
-      resp = resp.authentication_result
     rescue => e
-      resp = e
+      render json: e
     end
-    render json: resp
   end
     
   def sign_out
@@ -24,5 +29,14 @@ class AuthController < ApplicationController
       resp = { type: 'error', message: 'empty token' }
     end
     render json: resp
+  end
+
+  def respond_to_new_password_challenge
+    begin
+      resp = Cognito.respond_to_new_password_challenge(params[:new_password], params[:address], params[:name], params[:username],params[:session])
+      render json: resp.authentication_result
+    rescue => e
+      render json: e
+    end
   end
 end
