@@ -24,9 +24,26 @@ class Cognito
       auth_object = {
         client_id: ENV['AWS_COGNITO_APP_CLIENT_ID'],
         username: user_object[:USERNAME],
-        password: user_object[:PASSWORD]
+        password: user_object[:PASSWORD],
+        user_attributes: [
+          {
+            name: 'name', value: user_object[:name]
+          },
+          {
+            name: 'address', value: user_object[:address]
+          }
+        ]
       }
      @client.sign_up(auth_object)
+    end
+
+    def self.confirm_sign_up(user_object)
+      user_object = {
+        client_id: ENV['AWS_COGNITO_APP_CLIENT_ID'],
+        username: user_object[:USERNAME],
+        confirmation_code: user_object[:CONFIRMATION_CODE]
+      }
+      @client.confirm_sign_up(user_object)
     end
 
     def self.respond_to_new_password_challenge(new_password, address, name, username, session)

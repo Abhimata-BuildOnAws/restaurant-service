@@ -12,7 +12,6 @@ class AuthController < ApplicationController
           username: resp.challenge_parameters["USER_ID_FOR_SRP"],
           session: resp.session
         }, status: 200
-        return
       else
         render json: resp.authentication_result
       end
@@ -30,6 +29,37 @@ class AuthController < ApplicationController
     end
     render json: resp
   end
+
+  def sign_up
+    user_object = {
+      USERNAME: params[:username],
+      PASSWORD: params[:password],
+      address: params[:address],
+      name: params[:name]
+    }
+    begin
+      resp = Cognito.create_user(user_object)
+    rescue => e
+      resp = e
+    end
+    render json: resp
+    return
+  end
+
+  def confirm_sign_up
+    user_object = {
+      USERNAME: params[:username],
+      CONFIRMATION_CODE: params[:confirmation_code]
+    }
+    begin
+      resp = Cognito.confirm_sign_up(user_object)
+    rescue => e
+      resp = e
+    end
+    render json: resp, status: 200
+  end
+
+  # Challenges
 
   def respond_to_new_password_challenge
     begin
