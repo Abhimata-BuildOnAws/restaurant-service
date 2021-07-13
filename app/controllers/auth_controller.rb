@@ -64,6 +64,18 @@ class AuthController < ApplicationController
     end
   end
 
+  def get_user
+    begin
+      resp = Cognito.get_user(params[:access_token])
+      render json: {
+        user_id: resp.username,
+        user_attributes: resp.user_attributes
+      },status: 200
+    rescue => e
+      render json: e
+    end
+  end
+
   # Challenges
 
   def respond_to_new_password_challenge
