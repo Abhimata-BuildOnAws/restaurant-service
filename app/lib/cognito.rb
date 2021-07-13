@@ -1,14 +1,14 @@
 class Cognito
     @client = Aws::CognitoIdentityProvider::Client.new(
-      region: ENV['AWS_COGNITO_REGION'],
-      access_key_id: ENV['AWS_ACCESS_KEY'],
-      secret_access_key: ENV['AWS_SECRET_KEY']
+      region: ENV['COGNITO_REGION_AWS'],
+      access_key_id: ENV['ACCESS_KEY_AWS'],
+      secret_access_key: ENV['SECRET_KEY_AWS']
     )
 
     def self.authenticate(user_object)
       auth_object = {
-        user_pool_id: ENV['AWS_COGNITO_POOL_ID'],
-        client_id: ENV['AWS_COGNITO_APP_CLIENT_ID'],
+        user_pool_id: ENV['COGNITO_POOL_ID_AWS'],
+        client_id: ENV['COGNITO_APP_CLIENT_ID_AWS'],
         auth_flow: 'ADMIN_USER_PASSWORD_AUTH',
         auth_parameters: user_object
       }
@@ -22,7 +22,7 @@ class Cognito
     
     def self.create_user(user_object)
       auth_object = {
-        client_id: ENV['AWS_COGNITO_APP_CLIENT_ID'],
+        client_id: ENV['COGNITO_APP_CLIENT_ID_AWS'],
         username: user_object[:USERNAME],
         password: user_object[:PASSWORD],
         user_attributes: [
@@ -42,7 +42,7 @@ class Cognito
 
     def self.confirm_sign_up(user_object)
       user_object = {
-        client_id: ENV['AWS_COGNITO_APP_CLIENT_ID'],
+        client_id: ENV['COGNITO_APP_CLIENT_ID_AWS'],
         username: user_object[:USERNAME],
         confirmation_code: user_object[:CONFIRMATION_CODE]
       }
@@ -67,8 +67,8 @@ class Cognito
 
     def self.respond_to_challenge(session, challenge_name, challenge_responses)
       challenge_object = {
-        client_id: ENV['AWS_COGNITO_APP_CLIENT_ID'],
-        user_pool_id: ENV['AWS_COGNITO_POOL_ID'],
+        client_id: ENV['COGNITO_APP_CLIENT_ID_AWS'],
+        user_pool_id: ENV['COGNITO_POOL_ID_AWS'],
         challenge_name: challenge_name,
         challenge_responses: challenge_responses,
         session: session
