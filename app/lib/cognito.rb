@@ -46,6 +46,15 @@ class Cognito
       @client.confirm_sign_up(user_object)
     end
 
+    def self.get_user(access_token)
+      user_object = {
+        access_token: access_token
+      }
+      @client.get_user(user_object)
+    end
+
+    # Challenges
+
     def self.respond_to_new_password_challenge(new_password, address, name, username, session)
       challenge_responses = new_password_challenge(new_password, address, name, username)
       respond_to_challenge(session, 'NEW_PASSWORD_REQUIRED', challenge_responses)

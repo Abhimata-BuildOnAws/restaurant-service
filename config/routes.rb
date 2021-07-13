@@ -19,5 +19,6 @@ Rails.application.routes.draw do
   post 'auth/sign_out', to: 'auth#sign_out'
   post 'auth/confirm_user', to: 'auth#confirm_sign_up'
   post 'auth/new_password', to: 'auth#respond_to_new_password_challenge'
+  post 'auth/get_user', to: 'auth#get_user'
   
 end
