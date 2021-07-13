@@ -31,6 +31,9 @@ class Cognito
           },
           {
             name: 'address', value: user_object[:address]
+          },
+          {
+            name: 'custom:User_Type', value: user_object[:user_type]
           }
         ]
       }
