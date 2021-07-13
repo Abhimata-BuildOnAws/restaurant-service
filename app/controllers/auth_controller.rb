@@ -1,7 +1,7 @@
 class AuthController < ApplicationController
   def sign_in
     user_object = {
-      USERNAME: params[:username],
+      USERNAME: params[:email],
       PASSWORD: params[:password]
     }
     begin
@@ -32,20 +32,27 @@ class AuthController < ApplicationController
 
   def sign_up
     user_object = {
-      USERNAME: params[:username],
+      USERNAME: params[:email],
       PASSWORD: params[:password],
       address: params[:address],
-      name: params[:name]
+      name: params[:name],
+      user_type: params[:user_type]
     }
     begin
       resp = Cognito.create_user(user_object)
-      render json: {
-        confirmed: resp.user_confirmed,
-        destination: resp.code_delivery_details.destination,
-        medium: resp.code_delivery_details.delivery_medium,
-        attributes: resp.code_delivery_details.attribute_name,
-        user_id: resp.user_sub
-      }
+      case params[:user_type].downcase
+      when 'restaurant'
+        create_restaurant(resp.user_sub,params)
+      when 'user'
+        create_user(resp.user_sub, params)
+        render json: {
+          confirmed: resp.user_confirmed,
+          destination: resp.code_delivery_details.destination,
+          medium: resp.code_delivery_details.delivery_medium,
+          attributes: resp.code_delivery_details.attribute_name,
+          user_id: resp.user_sub
+        }
+      end
     rescue => e
       render json: e
     end
@@ -53,7 +60,7 @@ class AuthController < ApplicationController
 
   def confirm_sign_up
     user_object = {
-      USERNAME: params[:username],
+      USERNAME: params[:email],
       CONFIRMATION_CODE: params[:confirmation_code]
     }
     begin
@@ -80,10 +87,41 @@ class AuthController < ApplicationController
 
   def respond_to_new_password_challenge
     begin
-      resp = Cognito.respond_to_new_password_challenge(params[:new_password], params[:address], params[:name], params[:username],params[:session])
+      resp = Cognito.respond_to_new_password_challenge(params[:new_password], params[:address], params[:name], params[:user_id],params[:session])
       render json: resp.authentication_result
     rescue => e
       render json: e
     end
+  end
+
+  private
+
+  # Creation of Models
+  def create_restaurant(user_id, params)
+    restaurant = Restaurant.create(id: user_id, email: params[:email], name: params[:name],
+                                  address: params[:address], contact_no: params[:contact_no])
+    raise RestaurantCreationError unless restaurant.errors.empty?
+
+    # Stripe account creation
+    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+    account = Stripe::Account.create({
+      type: 'express',
+    })  
+    restaurant.update(stripe_id: account.id)
+
+    account_links = Stripe::AccountLink.create({
+      account: account.id,
+      refresh_url: 'https://localhost:3000',
+      return_url: 'https://localhost:3000',
+      type: 'account_onboarding',
+    })
+    render json: { stripe_url: account_links.url }, status: 200
+    # redirect_to account_links.url
+  end
+
+  def create_user(user_id, params)
+    user = User.create(id: user_id, email: params[:email], 
+                       name: params[:name], address: params[:address])
+    raise UserCreationError unless user.errors.empty?
   end
 end
