@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   post "/payment/payment_intent", to: "payment#payment_intent"
 
   # Cognito
+  post 'auth/sign_up', to: 'auth#sign_up'
   post 'auth/sign_in', to: 'auth#sign_in'
   post 'auth/sign_out', to: 'auth#sign_out'
+  post 'auth/confirm_user', to: 'auth#confirm_sign_up'
+  post 'auth/new_password', to: 'auth#respond_to_new_password_challenge'
+  
 end
