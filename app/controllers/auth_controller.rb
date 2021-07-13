@@ -39,11 +39,16 @@ class AuthController < ApplicationController
     }
     begin
       resp = Cognito.create_user(user_object)
+      render json: {
+        confirmed: resp.user_confirmed,
+        destination: resp.code_delivery_details.destination,
+        medium: resp.code_delivery_details.delivery_medium,
+        attributes: resp.code_delivery_details.attribute_name,
+        user_id: resp.user_sub
+      }
     rescue => e
-      resp = e
+      render json: e
     end
-    render json: resp
-    return
   end
 
   def confirm_sign_up
@@ -53,10 +58,10 @@ class AuthController < ApplicationController
     }
     begin
       resp = Cognito.confirm_sign_up(user_object)
+      render json: { message: 'User confirmed' }, status: 200
     rescue => e
-      resp = e
+      render json: e
     end
-    render json: resp, status: 200
   end
 
   # Challenges
