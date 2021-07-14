@@ -3,9 +3,8 @@ class HitchController < ApplicationController
   # Create a new Tumpang
   def create
     hitch = Hitch.create()
-    order = Order.find_by(id: params[:order_id])
 
-    hitch_order = HitchOrder.create(order_id: order.id, hitch_id: hitch.id)
+    add_order_to_hitch(hitch, order_id)
 
     render :json => { hitch: hitch }, status: 200
   end
@@ -20,10 +19,16 @@ class HitchController < ApplicationController
   # Add order to an existing tumpang
   def add_order
     hitch = Hitch.find_by(id: params[:hitch_id])
-    order = Order.find_by(id: params[:order_id])
 
-    hitch_order = HitchOrder.create(order_id: params[:order_id], hitch_id: hitch.id)
-
+    add_order_to_hitch(hitch, order_id)
+    
     render :json => { hitch: hitch }, status: 200
+  end
+
+  private
+  def add_order_to_hitch(hitch, order_id)
+    order = Order.find_by(id: order_id)
+
+    order.update(hitch_id: hitch.id)
   end
 end
