@@ -4,7 +4,7 @@ class HitchController < ApplicationController
   def create
     hitch = Hitch.create()
 
-    add_order_to_hitch(hitch, order_id)
+    add_order_to_hitch(hitch, params[:order_id])
 
     render :json => { hitch: hitch }, status: 200
   end
@@ -20,7 +20,7 @@ class HitchController < ApplicationController
   def add_order
     hitch = Hitch.find_by(id: params[:hitch_id])
 
-    add_order_to_hitch(hitch, order_id)
+    add_order_to_hitch(hitch, params[:order_id])
     
     render :json => { hitch: hitch }, status: 200
   end
