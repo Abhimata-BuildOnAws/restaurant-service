@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   post '/login', to: 'account#login'
 
   # Restaurant
-  post '/restaurant/signup', to: 'restaurant#signup'
-  post '/restaurant/login', to: 'restaurant#login'
   get '/restaurant/browse', to: 'restaurant#browse'
 
   # Payment
