@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2021_07_13_055836) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.float "total_price"
+    t.uuid "hitch_id"
   end
 
   create_table "restaurants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
