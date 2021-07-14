@@ -3,6 +3,7 @@ class PaymentController < ApplicationController
   Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
   # Takes in amount to be paid and the account to be paid to
+  # This is in AWS Lambda ruby-payment-intent
   def payment_intent
     payment_intent = Stripe::PaymentIntent.create({
       payment_method_types: ['card'],
