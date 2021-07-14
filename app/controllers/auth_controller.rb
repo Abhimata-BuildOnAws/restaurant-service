@@ -115,7 +115,8 @@ class AuthController < ApplicationController
   # Creation of Models
   def create_restaurant(user_id, params)
     restaurant = Restaurant.create(id: user_id, email: params[:email], name: params[:name],
-                                  address: params[:address], contact_no: params[:contact_no])
+                                  street: params[:address], state: params[:state],
+                                  country: params[:country], contact_no: params[:contact_no])
     raise RestaurantCreationError unless restaurant.errors.empty?
 
     # Stripe account creation
@@ -137,7 +138,8 @@ class AuthController < ApplicationController
 
   def create_user(user_id, params)
     user = User.create(id: user_id, email: params[:email], 
-                       name: params[:name], address: params[:address])
+                       name: params[:name], street: params[:address],
+                       state: params[:state], country: params[:country])
     raise UserCreationError unless user.errors.empty?
   end
 end
