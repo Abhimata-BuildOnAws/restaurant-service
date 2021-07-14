@@ -25,6 +25,11 @@ class OrderController < ApplicationController
     render :json => { order: new_order, pollution: pollution}, status: 200
   end
 
+  def directions
+    resp = OpenRoutesService.get_route('cycling-regular', 0)
+    render json: resp
+  end
+
   private 
   def find_menu_item(menu_item_id)
     MenuItem.find_by(id: menu_item_id)
