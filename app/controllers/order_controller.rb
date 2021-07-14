@@ -18,7 +18,7 @@ class OrderController < ApplicationController
     new_order.update(total_price: total_price)
 
     pollution = 100
-    if new_order.hitch.present?
+    if new_order.hitch_id.present?
       pollution = new_order.hitch.each_pollution
     end
 
