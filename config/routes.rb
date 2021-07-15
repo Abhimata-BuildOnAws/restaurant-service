@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   # Restaurant
-  get '/restaurant/browse', to: 'restaurant#browse'
+  post '/restaurant/browse', to: 'restaurant#browse'
 
   # Payment
   post "/payment/payment_intent", to: "payment#payment_intent"
