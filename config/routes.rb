@@ -29,4 +29,5 @@ Rails.application.routes.draw do
   post '/tumpang', to: 'hitch#create'
   get '/tumpang', to: 'hitch#get_all'
   post '/tumpang/add_order', to: 'hitch#add_order'
+  get '/tumpang/location', to: 'hitch#current_location'
 end

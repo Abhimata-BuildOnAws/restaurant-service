@@ -26,9 +26,17 @@ class HitchController < ApplicationController
   end
 
   private
+  
   def add_order_to_hitch(hitch, order_id)
     order = Order.find_by(id: order_id)
 
     order.update(hitch_id: hitch.id)
+  end
+
+  # Retrieve current location of user
+  def current_location
+    ip = request.remote_ip
+    results = Geocoder.search(ip)
+    results.first.address
   end
 end
