@@ -122,6 +122,8 @@ GEM
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
     jmespath (1.4.0)
+    jsonapi-serializer (2.2.0)
+      activesupport (>= 4.2)
     loofah (2.10.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -254,6 +256,7 @@ DEPENDENCIES
   faraday
   geocoder
   jbuilder (~> 2.7)
+  jsonapi-serializer
   pg
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
