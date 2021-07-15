@@ -8,6 +8,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-res = Restaurant.create(email: 'aikarvin@gmail.com', name: 'Mise en Place', street: '12 Verde Avenue', state: 'Singapore', country: 'Singapore', contact_no: '12345678')
+#res = Restaurant.create(email: 'aikarvin@gmail.com', name: 'Mise en Place', street: '12 Verde Avenue', state: 'Singapore', country: 'Singapore', contact_no: '12345678')
 #food1 = MenuItem.create(name: 'Orange chicken', description: 'Its just orange chicken', price: 4.5, restaurant_id: res.id)
 #food2 = MenuItem.create(name: 'Blue chicken', description: 'Its blue chicken', price: 5.5, restaurant_id: res.id)
+
+hitch = Hitch.create(pickup: '7 Jalan Naga Sari')
