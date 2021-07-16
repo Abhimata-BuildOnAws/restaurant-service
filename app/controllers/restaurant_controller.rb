@@ -1,6 +1,8 @@
 class RestaurantController < ApplicationController
   def browse
-    restaurants = ::Restaurant.all
-    render json: { restaurants: restaurants }, status: 200
+    restaurant = ::Restaurant.all
+    
+    serializer = RestaurantSerializer.new(restaurant, {params: {current_user: current_user(params)}})
+    render json: serializer.serializable_hash
   end
 end

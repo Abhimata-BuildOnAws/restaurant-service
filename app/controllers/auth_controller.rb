@@ -88,6 +88,7 @@ class AuthController < ApplicationController
       end
     rescue => e
       render json: e
+      return
     end
 
     case user_type
