@@ -8,6 +8,7 @@ class RestaurantSerializer
 
   # WIP : seed data for lat and long for user and restaurant 
   attribute :absolute_distance do |restaurant, params|
-    restaurant.distance_to([43.9,-98.6])
+    current_user = params[:current_user]
+    restaurant.distance_to([current_user.latitude,current_user.longitude])
   end
 end
