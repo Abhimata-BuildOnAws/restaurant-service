@@ -12,7 +12,8 @@ class HitchSerializer
   # Returns the route distance from restaurant to the user in metres 
   attribute :travel_distance do |hitch, params|
     current_user = params[:current_user]
-    @distance = get_distance(hitch, current_user)
+    @restaurant = hitch.restaurant
+    @distance = get_distance(@restaurant, hitch)
   end
 
   # Returns the total grams of carbon emitted for the whole delivery in grams
@@ -30,11 +31,22 @@ class HitchSerializer
     if order_count == 0
       @total_pollution
     else
-      @total_pollution / hitch.orders.count
+      @effective_pollution = @total_pollution / hitch.orders.count
     end
   end
 
   def self.get_distance(hitch, current_user)
     distance = OpenRoutesService.get_travel_distance('driving-car', hitch.coordinates, current_user.coordinates)
+  end
+
+  attribute :delivery_from do
+    @restaurant.address
+  end
+
+  # tree point = effective_pollution - 700
+  # if effective_pollution > 700, minus points
+  # if < 700, plus points
+  attribute :tree_point do
+    (@effective_pollution - 700) * -1
   end
 end
