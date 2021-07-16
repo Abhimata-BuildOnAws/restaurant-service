@@ -10,7 +10,11 @@ class User < ApplicationRecord
   after_validation :geocode
 
   def address
-    [street, state, country].compact.join(', ')
+    if state == country
+      [street, country].compact.join(', ')
+    else 
+      [street, state, country].compact.join(', ')
+    end
   end
 
   def coordinates
