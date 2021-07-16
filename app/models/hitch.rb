@@ -14,4 +14,9 @@ class Hitch < ApplicationRecord
   def coordinates
     [longitude, latitude]
   end
+
+  def restaurant  
+    menu_item_id = self.orders.first.order_items.first.menu_item_id
+    MenuItem.find(menu_item_id).restaurant
+  end
 end
