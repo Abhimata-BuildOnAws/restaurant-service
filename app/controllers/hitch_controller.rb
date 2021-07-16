@@ -13,7 +13,8 @@ class HitchController < ApplicationController
   def get_all
     hitches = ::Hitch.all
 
-    render :json => { hitches: hitches }, status: 200
+    serializer = HitchSerializer.new(hitches, {params: {current_user: current_user(params)}})
+    render json: serializer.serializable_hash
   end
 
   # Add order to an existing tumpang
