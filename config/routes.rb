@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   post 'menu_item/items_by_restaurant', to: 'menu_item#items_by_restaurant'
 
   # Order
-  post 'order/create', to: 'order#create'
+  post 'order', to: 'order#create'
   get 'order/directions', to: 'order#directions'
   get 'order/distance', to: 'order#distance'
 
