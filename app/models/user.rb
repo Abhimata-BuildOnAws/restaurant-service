@@ -18,6 +18,6 @@ class User < ApplicationRecord
   end
 
   def coordinates
-    [latitude,longitude]
+    [longitude, latitude]
   end
 end
