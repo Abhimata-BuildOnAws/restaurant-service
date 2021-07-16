@@ -3,9 +3,11 @@ class OrderController < ApplicationController
 
   # Create new order
   def create
-    new_order = Order.create()
+    new_order = Order.create(user: current_user(nil))
     orders = JSON.parse(request.body.read)['order']
+    hitch_id = JSON.parse(request.body.read)['hitch_id']
 
+    new_order.update(hitch_id: hitch_id)
     total_price = 0
 
     orders.each do |o|

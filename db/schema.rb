@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_16_055841) do
+ActiveRecord::Schema.define(version: 2021_07_16_120237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -25,6 +25,10 @@ ActiveRecord::Schema.define(version: 2021_07_16_055841) do
     t.float "total_pollution"
     t.datetime "submit_time"
     t.datetime "delivery_time"
+    t.uuid "user_id"
+    t.uuid "restaurant_id"
+    t.index ["restaurant_id"], name: "index_hitches_on_restaurant_id"
+    t.index ["user_id"], name: "index_hitches_on_user_id"
   end
 
   create_table "menu_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -51,6 +55,8 @@ ActiveRecord::Schema.define(version: 2021_07_16_055841) do
     t.datetime "updated_at", precision: 6, null: false
     t.float "total_price"
     t.uuid "hitch_id"
+    t.uuid "user_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "restaurants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -79,5 +85,8 @@ ActiveRecord::Schema.define(version: 2021_07_16_055841) do
     t.float "longitude"
   end
 
+  add_foreign_key "hitches", "restaurants"
+  add_foreign_key "hitches", "users"
   add_foreign_key "menu_items", "restaurants"
+  add_foreign_key "orders", "users"
 end
