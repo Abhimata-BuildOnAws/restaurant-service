@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   post 'auth/new_password', to: 'auth#respond_to_new_password_challenge'
   post 'auth/current_user', to: 'auth#current_user'
   
+  # User
+  post 'user/update_location', to: 'user#update_location'
 
   # MenuItem
   post 'menu_item/items_by_restaurant', to: 'menu_item#items_by_restaurant'
