@@ -11,8 +11,7 @@ class HitchController < ApplicationController
 
     serializer = HitchSerializer.new(hitch, {params: {current_user: current_user(params)}})
 
-    # render json: serializer.serializable_hash
-    render json: hitch
+    render json: serializer.serializable_hash
   end
   
   # Get all hitches that are active
