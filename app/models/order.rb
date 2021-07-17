@@ -3,4 +3,6 @@ class Order < ApplicationRecord
   has_many :menu_items, through: :order_items
 
   belongs_to :hitch, optional: true
+  belongs_to :user
+  
 end

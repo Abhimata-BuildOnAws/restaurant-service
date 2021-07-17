@@ -5,8 +5,9 @@ class HitchController < ApplicationController
     submit_time = DateTime.iso8601(params[:submit_time])
     hitch = Hitch.create(
       submit_time: params[:submit_time], 
-      pickup: params[:pickup])
-    add_order_to_hitch(hitch, params[:order_id])
+      pickup: params[:pickup],
+      user: current_user(nil),
+      restaurant_id: params[:restaurant_id])
 
     serializer = HitchSerializer.new(hitch, {params: {current_user: current_user(params)}})
 
@@ -21,22 +22,7 @@ class HitchController < ApplicationController
     render json: serializer.serializable_hash
   end
 
-  # Add order to an existing tumpang
-  def add_order
-    hitch = Hitch.find_by(id: params[:hitch_id])
-
-    add_order_to_hitch(hitch, params[:order_id])
-    
-    render :json => { hitch: hitch }, status: 200
-  end
-
   private
-  
-  def add_order_to_hitch(hitch, order_id)
-    order = Order.find_by(id: order_id)
-
-    order.update(hitch_id: hitch.id)
-  end
 
   # Retrieve current location of user
   def current_location

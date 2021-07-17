@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  # Relationships
+  has_many :orders
+  has_many :hitches
+   
   # Geocoding
   geocoded_by :address
 

@@ -19,7 +19,9 @@ class ApplicationController < ActionController::Base
         end
       end
     rescue => e
-      render json: e
+      # Change this to raise an error eventually
+      # render json: e
+      puts e
     end
 
     case user_type
@@ -28,6 +30,12 @@ class ApplicationController < ActionController::Base
     when 'user'
       user = User.find(user_id)
     end
-    user
+    # Remove test_user when we have frontend/sign in logic working
+    user || test_user
+  end
+
+   # Remove test_user when we have frontend/sign in logic working
+  def test_user
+    User.find_by(email: 'pbeebsandj@gmail.com')
   end
 end
