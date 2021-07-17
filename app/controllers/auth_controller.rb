@@ -118,7 +118,7 @@ class AuthController < ApplicationController
     restaurant = Restaurant.create(id: user_id, email: params[:email], name: params[:name],
                                   street: params[:address], state: params[:state],
                                   country: params[:country], contact_no: params[:contact_no])
-    raise RestaurantCreationError unless restaurant.errors.empty?
+    raise Errors::RestaurantCreationError unless restaurant.errors.empty?
 
     # Stripe account creation
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
