@@ -10,7 +10,7 @@ Bundler.require(*Rails.groups)
 
 module Tumpang
   class Application < Rails::Application
-    config.time_zone = "Asia/Singapore"
+    config.time_zone = 'Asia/Singapore'
     config.active_record.default_timezone = :local
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')

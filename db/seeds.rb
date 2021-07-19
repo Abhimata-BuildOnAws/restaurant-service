@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
@@ -7,7 +8,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
+# res = Restaurant.create(email: 'aikarvin@gmail.com', name: 'Mise en Place', street: '12 Verde Avenue', state: 'Singapore', country: 'Singapore', contact_no: '12345678')
+# food1 = MenuItem.create(name: 'Orange chicken', description: 'Its just orange chicken', price: 4.5, restaurant_id: res.id)
+# food2 = MenuItem.create(name: 'Blue chicken', description: 'Its blue chicken', price: 5.5, restaurant_id: res.id)
 res0 = Restaurant.create(email: 'aikarvin@gmail.com', name: 'Fortune Centre', street: '190 Middle Rd', state: 'Singapore', country: 'Singapore', contact_no: '12345678')
 res1 = Restaurant.create(email: 'aikarvin@gmail.com', name: 'Sunshine Plaza', street: '91 Bencoolen St', state: 'Singapore', country: 'Singapore', contact_no: '12345678')
 res2 = Restaurant.create(email: 'aikarvin@gmail.com', name: 'Bugis Junction', street: '200 Victoria St', state: 'Singapore', country: 'Singapore', contact_no: '12345678')

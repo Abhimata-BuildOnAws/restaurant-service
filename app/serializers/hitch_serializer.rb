@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HitchSerializer
   include JSONAPI::Serializer
 
@@ -9,7 +11,7 @@ class HitchSerializer
     hitch.distance_to(current_user.coordinates)
   end
 
-  # Returns the route distance from restaurant to the user in metres 
+  # Returns the route distance from restaurant to the user in metres
   attribute :travel_distance do |hitch, params|
     current_user = params[:current_user]
     @restaurant = hitch.restaurant
@@ -18,7 +20,7 @@ class HitchSerializer
 
   # Calculates effective pollution for each customer that hitches onto this delivery
   # In grams
-  attribute :effective_pollution do |hitch, params|
+  attribute :effective_pollution do |hitch, _params|
     @effective_pollution = hitch.each_pollution
   end
 

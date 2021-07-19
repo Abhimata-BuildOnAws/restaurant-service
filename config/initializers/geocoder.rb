@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Geocoder.configure(
   bing: {
     api_key: ENV['BING_MAPS_KEY']

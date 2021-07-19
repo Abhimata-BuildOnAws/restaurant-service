@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AuthController < ApplicationController
   def sign_in
     user_object = {
@@ -9,17 +11,22 @@ class AuthController < ApplicationController
       if resp.authentication_result.nil?
         render json: {
           challenge_name: resp.challenge_name,
-          username: resp.challenge_parameters["USER_ID_FOR_SRP"],
+          username: resp.challenge_parameters['USER_ID_FOR_SRP'],
           session: resp.session
         }, status: 200
       else
         render json: resp.authentication_result
       end
-    rescue => e
+    rescue StandardError => e
       render json: e
     end
   end
-    
+
+  def refresh
+    resp = Cognito.refresh(params[:refresh_token])
+    render json: resp.authentication_result
+  end
+
   def sign_out
     if request.headers['Authorization']
       Cognito.sign_out(request.headers['Authorization'])
@@ -42,7 +49,7 @@ class AuthController < ApplicationController
       resp = Cognito.create_user(user_object)
       case params[:user_type].downcase
       when 'restaurant'
-        create_restaurant(resp.user_sub,params)
+        create_restaurant(resp.user_sub, params)
       when 'user'
         create_user(resp.user_sub, params)
         render json: {
@@ -53,7 +60,7 @@ class AuthController < ApplicationController
           user_id: resp.user_sub
         }
       end
-    rescue => e
+    rescue StandardError => e
       render json: e
     end
   end
@@ -66,49 +73,19 @@ class AuthController < ApplicationController
     begin
       resp = Cognito.confirm_sign_up(user_object)
       render json: { message: 'User confirmed' }, status: 200
-    rescue => e
+    rescue StandardError => e
       render json: e
     end
-  end
-
-  def current_user
-    begin
-      resp = Cognito.get_user(params[:access_token])
-
-      #Initialise variables
-      user_type = user_id = ''
-      
-      # Determine user_type and id of currently logged in user
-      resp.user_attributes.each do |t|
-        if t['name'] == 'sub'
-          user_id = t['value']
-        elsif t['name'] == 'custom:User_Type'
-          user_type = t['value']
-        end
-      end
-    rescue => e
-      render json: e
-      return
-    end
-
-    case user_type
-    when 'restaurant'
-      user = Restaurant.find(user_id)
-    when 'user'
-      user = User.find(user_id)
-    end
-    render json: user
   end
 
   # Challenges
 
   def respond_to_new_password_challenge
-    begin
-      resp = Cognito.respond_to_new_password_challenge(params[:new_password], params[:address], params[:name], params[:user_id],params[:session])
-      render json: resp.authentication_result
-    rescue => e
-      render json: e
-    end
+    resp = Cognito.respond_to_new_password_challenge(params[:new_password], params[:address], params[:name],
+                                                     params[:user_id], params[:session])
+    render json: resp.authentication_result
+  rescue StandardError => e
+    render json: e
   end
 
   private
@@ -116,29 +93,29 @@ class AuthController < ApplicationController
   # Creation of Models
   def create_restaurant(user_id, params)
     restaurant = Restaurant.create(id: user_id, email: params[:email], name: params[:name],
-                                  street: params[:address], state: params[:state],
-                                  country: params[:country], contact_no: params[:contact_no])
+                                   street: params[:address], state: params[:state],
+                                   country: params[:country], contact_no: params[:contact_no])
     raise Errors::RestaurantCreationError unless restaurant.errors.empty?
 
     # Stripe account creation
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
     account = Stripe::Account.create({
-      type: 'express',
-    })  
+                                       type: 'express'
+                                     })
     restaurant.update(stripe_id: account.id)
 
     account_links = Stripe::AccountLink.create({
-      account: account.id,
-      refresh_url: 'https://localhost:3000',
-      return_url: 'https://localhost:3000',
-      type: 'account_onboarding',
-    })
-    render json: { stripe_url: account_links.url }, status: 200
-    # redirect_to account_links.url
+                                                 account: account.id,
+                                                 refresh_url: 'https://localhost:3000',
+                                                 return_url: 'https://localhost:3000',
+                                                 type: 'account_onboarding'
+                                               })
+    # render json: { stripe_url: account_links.url }, status: 200
+    redirect_to account_links.url
   end
 
   def create_user(user_id, params)
-    user = User.create(id: user_id, email: params[:email], 
+    user = User.create(id: user_id, email: params[:email],
                        name: params[:name], street: params[:address],
                        state: params[:state], country: params[:country])
     raise Errors::UserCreationError unless user.errors.empty?

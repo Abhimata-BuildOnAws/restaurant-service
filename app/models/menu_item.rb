@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MenuItem < ApplicationRecord
   # Relationships
   belongs_to :restaurant
