@@ -28,17 +28,6 @@ puts "#{User.count} users seeded"
 
 users = [user0, user1, user2, user3]
 
-# users.each do |user|
-#   user_object = {
-#     USERNAME: user.email,
-#     PASSWORD: "fakePass69!",
-#     address: user.street,
-#     name: user.name,
-#     user_type: 'user'
-#   }
-#   resp = Cognito.create_user(user_object)
-# end
-
 res = [res0, res1, res2, res3, res4]
 
 food00 = MenuItem.create(name: 'Red fish', description: 'Its just red fish', price: 3.5, restaurant_id: res0.id)
@@ -73,8 +62,6 @@ food44 = MenuItem.create(name: 'Pink panther', description: 'Its pink panther', 
 
 puts "#{MenuItem.count} menu items seeded"
 
-puts user0.present?
-puts res0.present?
 hitch0 = Hitch.create(pickup: '190 Middle Rd', user: user0, restaurant_id: res0.id, submit_time: DateTime.iso8601("2021-07-21T14:40:06+08:00"))
 hitch1 = Hitch.create(pickup: '25 Bencoolen St', user: user1, restaurant_id: res1.id, submit_time: DateTime.iso8601("2021-07-21T14:40:06+08:00"))
 hitch2 = Hitch.create(pickup: '13 Verde Ave', user: user2, restaurant_id: res2.id, submit_time: DateTime.iso8601("2021-07-21T14:40:06+08:00"))
@@ -91,11 +78,8 @@ order1 = Order.create(user: user1, hitch: hitch1)
 
 oi = OrderItem.create(order_id: order1.id, quantity: 1, menu_item_id: food10.id)
 
-puts oi.errors.full_messages
 oi = OrderItem.create(order_id: order1.id, quantity: 2, menu_item_id: food14.id)
-puts oi.errors.full_messages
 oi = OrderItem.create(order_id: order1.id, quantity: 2, menu_item_id: food13.id)
-puts oi.errors.full_messages
 
 
 order2 = Order.create(user: user2, hitch: hitch0)
@@ -104,13 +88,8 @@ OrderItem.create(order_id: order2.id, quantity: 3, menu_item_id: food04.id)
 
 order3 = Order.create(user: user3, hitch: hitch2)
 oi = OrderItem.create(order_id: order3.id, quantity: 1, menu_item_id: food20.id)
-puts oi.errors.full_messages
-
 oi = OrderItem.create(order_id: order3.id, quantity: 2, menu_item_id: food22.id)
-puts oi.errors.full_messages
-
 oi = OrderItem.create(order_id: order3.id, quantity: 2, menu_item_id: food23.id)
-puts oi.errors.full_messages
 
 
 puts "#{Order.count} orders seeded"
