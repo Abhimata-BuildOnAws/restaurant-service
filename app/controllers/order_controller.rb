@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrderController < ApplicationController
   require 'json'
 
@@ -16,17 +18,15 @@ class OrderController < ApplicationController
       oi = OrderItem.create(order_id: new_order.id, quantity: quantity, menu_item_id: menu_item.id)
 
       raise Errors::OrderItemCreationError unless oi.errors.empty?
-      
+
       total_price += quantity * menu_item.price
     end
 
     new_order.update(total_price: total_price)
 
     pollution = 100
-    if new_order.hitch_id.present?
-      pollution = new_order.hitch.each_pollution
-    end
+    pollution = new_order.hitch.each_pollution if new_order.hitch_id.present?
 
-    render :json => { order: new_order, pollution: pollution}, status: 200
+    render json: { order: new_order, pollution: pollution }, status: 200
   end
 end

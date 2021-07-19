@@ -1,24 +1,26 @@
-class HitchController < ApplicationController
+# frozen_string_literal: true
 
+class HitchController < ApplicationController
   # Create a new Tumpang
   def create
     submit_time = DateTime.iso8601(params[:submit_time])
     hitch = Hitch.create(
-      submit_time: params[:submit_time], 
+      submit_time: params[:submit_time],
       pickup: params[:pickup],
       user: current_user(nil),
-      restaurant_id: params[:restaurant_id])
+      restaurant_id: params[:restaurant_id]
+    )
 
-    serializer = HitchSerializer.new(hitch, {params: {current_user: current_user(params)}})
+    serializer = HitchSerializer.new(hitch, { params: { current_user: current_user(params) } })
 
     render json: serializer.serializable_hash
   end
-  
+
   # Get all hitches that are active
   def get_all
     hitches = ::Hitch.all
 
-    serializer = HitchSerializer.new(hitches, {params: {current_user: current_user(params)}})
+    serializer = HitchSerializer.new(hitches, { params: { current_user: current_user(params) } })
     render json: serializer.serializable_hash
   end
 

@@ -3,22 +3,23 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
-  def current_user(params)
+  def current_user(_params)
     begin
-      resp = Cognito.get_user(params[:access_token])
+      resp = Cognito.get_user(request.headers)
 
-      #Initialise variables
+      # Initialise variables
       user_type = user_id = ''
-      
+
       # Determine user_type and id of currently logged in user
       resp.user_attributes.each do |t|
-        if t['name'] == 'sub'
+        case t['name']
+        when 'sub'
           user_id = t['value']
-        elsif t['name'] == 'custom:User_Type'
+        when 'custom:User_Type'
           user_type = t['value']
         end
       end
-    rescue => e
+    rescue StandardError => e
       # Change this to raise an error eventually
       # render json: e
       puts e
@@ -30,12 +31,6 @@ class ApplicationController < ActionController::Base
     when 'user'
       user = User.find(user_id)
     end
-    # Remove test_user when we have frontend/sign in logic working
-    user || test_user
-  end
-
-   # Remove test_user when we have frontend/sign in logic working
-  def test_user
-    User.find_by(email: 'pbeebsandj@gmail.com')
+    user
   end
 end

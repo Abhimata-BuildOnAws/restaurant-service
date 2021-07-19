@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Restaurant < User
   # attr_accessor :id, :name, :street, :state, :country, :contact_no, :stripe_id, :latitude, :longitude
 
