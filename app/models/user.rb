@@ -4,7 +4,7 @@ class User < ApplicationRecord
   # Relationships
   has_many :orders
   has_many :hitches
-   
+
   # Geocoding
   geocoded_by :address
 
@@ -16,7 +16,7 @@ class User < ApplicationRecord
   def address
     if state == country
       [street, country].compact.join(', ')
-    else 
+    else
       [street, state, country].compact.join(', ')
     end
   end

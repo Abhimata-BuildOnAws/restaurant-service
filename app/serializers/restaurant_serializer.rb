@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RestaurantSerializer
   include JSONAPI::Serializer
 
@@ -5,6 +7,6 @@ class RestaurantSerializer
 
   attribute :absolute_distance do |restaurant, params|
     current_user = params[:current_user]
-    restaurant.distance_to([current_user.latitude,current_user.longitude])
+    restaurant.distance_to([current_user.latitude, current_user.longitude])
   end
 end
