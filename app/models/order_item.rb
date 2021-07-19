@@ -5,7 +5,9 @@ class OrderItem < ApplicationRecord
   validate :menu_item_must_be_from_hitch_restaurant
 
   def menu_item_must_be_from_hitch_restaurant
-    unless
+    unless self.menu_item.restaurant_id == self.order.hitch.restaurant_id
+      puts "Menu restaurant #{self.menu_item.restaurant_id}"
+      puts "Order hitch restaurant #{self.order.hitch.restaurant_id}"
       errors.add(:menu_item_id, "must be from the restaurant you are tumpanging from")
     end
   end
