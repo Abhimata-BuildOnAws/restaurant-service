@@ -33,7 +33,7 @@ class RestaurantController < ApplicationController
   def browse
     restaurant = ::Restaurant.all
 
-    serializer = RestaurantSerializer.new(restaurant, params)
+    serializer = RestaurantSerializer.new(restaurant, { params: {coordinates: params['coordinates']} })
     render json: serializer.serializable_hash
   end
 end

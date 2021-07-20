@@ -5,7 +5,7 @@ class RestaurantSerializer
 
   attributes :id, :name, :latitude, :longitude, :street, :state, :country, :contact_no, :stripe_id
 
-  attribute :absolute_distance do |restaurant, params|
-    restaurant.distance_to(params[:coordinates])
+  attribute :absolute_distance do |r, params|
+    r.distance_to(params[:coordinates])
   end
 end
