@@ -36,4 +36,9 @@ class RestaurantController < ApplicationController
     serializer = RestaurantSerializer.new(restaurant, { params: {coordinates: params['coordinates']} })
     render json: serializer.serializable_hash
   end
+
+  def menu
+    restaurant = Restaurant.find(params[:restaurant_id])
+    render json: restaurant.menu_items
+  end
 end
