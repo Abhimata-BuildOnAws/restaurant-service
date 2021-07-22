@@ -13,6 +13,7 @@ module Tumpang
     config.time_zone = 'Asia/Singapore'
     config.active_record.default_timezone = :local
     config.hosts << "internal-tumpang-1967021414.ap-southeast-1.elb.amazonaws.com"
+    config.hosts << "tumpang-nlb-43349993c0bf291a.elb.ap-southeast-1.amazonaws.com"
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
       if File.exist?(env_file)
