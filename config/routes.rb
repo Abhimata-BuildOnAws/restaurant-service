@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get '/health_check', to: 'application#health_check'
   post '/restaurant/browse', to: 'restaurant#browse'
   post '/restaurant/menu', to: 'restaurant#menu'
   post '/restaurant/create', to: 'restaurant#create_restaurant'
