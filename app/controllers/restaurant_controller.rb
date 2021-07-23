@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class RestaurantController < ApplicationController
+  # Creating and Updating
+  
   def create_restaurant
     restaurant = Restaurant.create(email: params[:email], name: params[:name],
                                    street: params[:address], state: params[:state],
@@ -27,18 +29,44 @@ class RestaurantController < ApplicationController
 
   def add_menu_item_to_restaurant
     restaurant = Restaurant.find(params[:restaurant_id])
-    MenuItem.create(restaurant: restaurant, name: params[:name], description: params[:description], price: params[:price])
+    menu_item = MenuItem.create(restaurant: restaurant, name: params[:name], description: params[:description], price: params[:price], image: params[:image])
+    serializer = MenuItemSerializer.new(menu_item)
+    render json: serializer.serializable_hash
   end
+
+  def add_picture_for_menu_item
+    menu_item = MenuItem.find(params[:menu_item_id])   
+    File.open(params[:image])
+    menu_item.image.attach(params[:image])
+    serializer = MenuItemSerializer.new(menu_item)
+    render json: serializer.serializable_hash
+  end
+
+
+  # Viewing
 
   def browse
     restaurant = ::Restaurant.all
-
     serializer = RestaurantSerializer.new(restaurant, { params: {coordinates: params['coordinates']} })
     render json: serializer.serializable_hash
   end
 
-  def menu
+  def get_restaurant
     restaurant = Restaurant.find(params[:restaurant_id])
-    render json: restaurant.menu_items
+    serializer = RestaurantSerializer.new(restaurant, { params: {coordinates: params['coordinates']} })
+    render json: serializer.serializable_hash
   end
+
+  def get_restaurant_menu
+    restaurant = Restaurant.find(params[:restaurant_id])
+    serializer = MenuItemSerializer.new(restaurant.menu_items)
+    render json: serializer.serializable_hash
+  end
+
+  def get_menu_items
+    menu_items = MenuItem.find(params[:menu_item_id])
+    serializer = MenuItemSerializer.new(menu_items)
+    render json: serializer.serializable_hash
+  end
+
 end

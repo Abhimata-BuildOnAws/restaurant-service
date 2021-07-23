@@ -2,6 +2,7 @@
 
 class MenuItem < ApplicationRecord
   # Relationships
+  has_one_attached :image
   belongs_to :restaurant
 
   # Validations
