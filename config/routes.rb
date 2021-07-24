@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   # Creating and Updating
   post '/restaurant/create', to: 'restaurant#create_restaurant'
   post '/restaurant/add_menu', to: 'restaurant#add_menu_item_to_restaurant'
+  post '/restaurant/edit_restaurant', to: 'restaurant#edit_restaurant'
+  post '/restaurant/edit_menu_item', to: 'restaurant#edit_menu_item'
   post '/restaurant/add_picture_for_menu_item', to: 'restaurant#add_picture_for_menu_item'
 
   post '/restaurant/browse', to: 'restaurant#browse'

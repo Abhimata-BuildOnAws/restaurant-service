@@ -34,14 +34,31 @@ class RestaurantController < ApplicationController
     render json: serializer.serializable_hash
   end
 
+  
+
+  def edit_restaurant
+    restaurant = Restaurant.find(params[:restaurant_id])
+    restaurant.update(email: params[:email], name: params[:name],
+                      street: params[:address], state: params[:state],
+                      country: params[:country], contact_no: params[:contact_no])
+    raise StandardError, restaurant.errors.full_messages unless restaurant.errors.empty?
+    render json: restaurant
+  end
+
+  def edit_menu_item
+    menu_item = MenuItem.find(params[:menu_item_id])
+    menu_item.update(name: params[:name], description: params[:description], price: params[:price], image: params[:image])
+    raise StandardError, menu_item.errors.full_messages unless menu_item.errors.empty?
+    render json: menu_item
+  end
+
   def add_picture_for_menu_item
-    menu_item = MenuItem.find(params[:menu_item_id])   
+    menu_item = MenuItem.find(params[:menu_item_id])
     File.open(params[:image])
     menu_item.image.attach(params[:image])
     serializer = MenuItemSerializer.new(menu_item)
     render json: serializer.serializable_hash
   end
-
 
   # Viewing
 
