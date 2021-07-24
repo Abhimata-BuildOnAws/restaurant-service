@@ -13,7 +13,7 @@ class MenuItem < ApplicationRecord
     order_service_ip = ServiceDiscovery.order_service_ip
     # Public IP
     # order_service_ip = "18.139.84.70"
-    url = "http://" + order_service_ip + ":3000/restaurant/create"
+    url = "http://" + order_service_ip + ":3000/menu_item/create"
 
     headers = { "Content-Type": "application/json; charset=utf-8" }
 
