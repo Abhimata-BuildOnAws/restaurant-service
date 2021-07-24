@@ -41,7 +41,8 @@ gem 'faraday'
 # Geocoding
 gem 'geocoder'
 
-# Image Storage
+# AWS
+gem 'aws-sdk-servicediscovery'
 gem "aws-sdk-s3", require: false
 
 group :development, :test do
