@@ -38,16 +38,14 @@ class RestaurantController < ApplicationController
 
   def edit_restaurant
     restaurant = Restaurant.find(params[:restaurant_id])
-    restaurant.update(email: params[:email], name: params[:name],
-                      street: params[:address], state: params[:state],
-                      country: params[:country], contact_no: params[:contact_no])
+    restaurant.update(restaurant_params)
     raise StandardError, restaurant.errors.full_messages unless restaurant.errors.empty?
     render json: restaurant
   end
 
   def edit_menu_item
     menu_item = MenuItem.find(params[:menu_item_id])
-    menu_item.update(name: params[:name], description: params[:description], price: params[:price], image: params[:image])
+    menu_item.update(menu_item_params)
     raise StandardError, menu_item.errors.full_messages unless menu_item.errors.empty?
     render json: menu_item
   end
@@ -86,4 +84,12 @@ class RestaurantController < ApplicationController
     render json: serializer.serializable_hash
   end
 
+  # private
+
+  def menu_item_params
+    params.permit(:name, :description, :price, :image).select { |k,v| !v.blank?}
+  end
+
+  def restaurant_params
+    params.permit(:email, :name, :street, :state, :country, :contact_no).select { |k,v| !v.blank?}
 end
