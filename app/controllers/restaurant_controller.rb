@@ -92,4 +92,5 @@ class RestaurantController < ApplicationController
 
   def restaurant_params
     params.permit(:email, :name, :street, :state, :country, :contact_no).select { |k,v| !v.blank?}
+  end
 end
