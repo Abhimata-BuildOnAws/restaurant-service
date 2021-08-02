@@ -47,7 +47,8 @@ class RestaurantController < ApplicationController
     menu_item = MenuItem.find(params[:menu_item_id])
     menu_item.update(menu_item_params)
     raise StandardError, menu_item.errors.full_messages unless menu_item.errors.empty?
-    render json: menu_item
+    serializer = MenuItemSerializer.new(menu_item)
+    render json: serializer.serializable_hash
   end
 
   def add_picture_for_menu_item
