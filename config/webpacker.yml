@@ -67,7 +67,7 @@ development:
     quiet: false
     pretty: false
     headers:
-      'Access-Control-Allow-Origin': '*'
+      'Access-Control-Allow-Origin': 'http://localhost:3001'
     watch_options:
       ignored: '**/node_modules/**'
 
