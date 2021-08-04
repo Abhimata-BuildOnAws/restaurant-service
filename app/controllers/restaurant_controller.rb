@@ -62,7 +62,7 @@ class RestaurantController < ApplicationController
   # Viewing
 
   def browse
-    restaurant = ::Restaurant.near(params[:coordinates], 20)
+    restaurant = Restaurant.near(params[:coordinates], 20)
     serializer = RestaurantSerializer.new(restaurant, { params: {coordinates: params['coordinates']} })
     render json: serializer.serializable_hash
   end

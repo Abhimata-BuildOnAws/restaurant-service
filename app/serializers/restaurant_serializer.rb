@@ -9,6 +9,8 @@ class RestaurantSerializer
     r.distance_to(params[:coordinates])
   end
 
+
+  # Estimate of tree points if ordering from location alone
   attribute :tree_points do |r, params|
     coordinates = JSON.parse(params[:coordinates])
     user_latitude = coordinates[0]
