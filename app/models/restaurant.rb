@@ -20,6 +20,10 @@ class Restaurant < ApplicationRecord
     end
   end
 
+  def calculate_travel_distance(mode_of_transport, coordinates)
+    travel_distance = OpenRoutesService.get_travel_distance(mode_of_transport, [longitude, latitude], coordinates)
+  end
+
   def add_to_order_service
     order_service_ip = ServiceDiscovery.order_service_ip
     # Public IP
