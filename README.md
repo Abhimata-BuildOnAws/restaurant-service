@@ -24,11 +24,14 @@ This microservice also communicates with two other services - User Service and O
 - ```AWS_S3_BUCKET```
     - The name of the S3 Bucket used to store files
 - ```ORDER_SERVICE_ID```
-    - Id of Order service in Route 53 Registry
+    - Id of order service in Route 53 Registry
 - ```OPEN_ROUTES_API_KEY```
     - The key to access Open Routes Service API
 - ```BING_MAPS_KEY```
     - The key to access Bing Maps Service API
+- ```ABSTRACT_API_KEY```
+    - The key to access Abstract Service API
+
  
 File format:
 ```sh
@@ -39,10 +42,12 @@ RDS_ENDPOINT:
 AWS_ACCESS_KEY:
 AWS_SECRET_KEY: 
 AWS_REGION:
-USER_SERVICE_ID: 
+AWS_S3_BUCKET: 
+ORDER_SERVICE_ID: 
 
 OPEN_ROUTES_API_KEY: 
 BING_MAPS_KEY:
+ABSTRACT_API_KEY
 
 ```
 
